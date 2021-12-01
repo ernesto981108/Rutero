@@ -12,7 +12,6 @@ class ListenLocationWidget extends StatefulWidget {
 }
 
 class _ListenLocationState extends State<ListenLocationWidget> {
-  PermissionStatus? _permissionGranted;
   final Location location = Location();
 
   LocationData? _location;
@@ -43,10 +42,6 @@ class _ListenLocationState extends State<ListenLocationWidget> {
         print('$_location');
       });
     });
-  }
-
-  Future<void> _stopListen() async {
-    _locationSubscription.cancel();
   }
 
   @override
@@ -84,7 +79,7 @@ class _ListenLocationState extends State<ListenLocationWidget> {
   var url = Uri.parse('http://152.206.177.70:1337/ubicacions');
   void sendInfo() async {
     await http.post(url, body: {
-      'imei': '011010',
+      'imei': '53519709',
       'ubicacion': '$latitud,$longitud*${accuracy.toString()}',
       'ip': ''
     });
