@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/services.dart';
 
 class ListenLocationWidget extends StatefulWidget {
   const ListenLocationWidget({Key? key}) : super(key: key);
@@ -40,6 +40,7 @@ class _ListenLocationState extends State<ListenLocationWidget> {
         accuracy = _location!.accuracy.toString();
 
         sendInfo();
+        print('$_location');
       });
     });
   }
@@ -68,8 +69,11 @@ class _ListenLocationState extends State<ListenLocationWidget> {
               scale: 5,
             ),
             onPressed: () => {
-              requestPermission(),
+              _toggleBackgroundMode(),
               _listenLocation(),
+              location.changeNotificationOptions(
+                title: 'Localización en segundo plano activa',
+              )
             },
           ),
         )
@@ -80,20 +84,10 @@ class _ListenLocationState extends State<ListenLocationWidget> {
   var url = Uri.parse('http://152.206.177.70:1337/ubicacions');
   void sendInfo() async {
     await http.post(url, body: {
-      'imei': '53519709',
+      'imei': '011010',
       'ubicacion': '$latitud,$longitud*${accuracy.toString()}',
       'ip': ''
     });
-  }
-
-  Future<void> requestPermission() async {
-    if (_permissionGranted != PermissionStatus.granted) {
-      final PermissionStatus permissionRequestedResult =
-          await location.requestPermission();
-      setState(() {
-        _permissionGranted = permissionRequestedResult;
-      });
-    }
   }
 
   Future<void> _toggleBackgroundMode() async {

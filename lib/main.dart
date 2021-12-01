@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'listen_location.dart';
-import 'package:flutter/services.dart';
 
 void main() => runApp(const MyApp());
 
@@ -45,10 +44,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    _checkPermissions();
-    _checkBackgroundMode();
-    _checkService();
     super.initState();
+    _checkPermissions();
+    // _checkBackgroundMode();
+    _checkService();
   }
 
   Future<void> _checkService() async {
@@ -76,38 +75,38 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  Future<void> _toggleBackgroundMode() async {
-    setState(() {
-      _error = null;
-    });
-    try {
-      final bool result =
-          await location.enableBackgroundMode(enable: !(_enabled ?? false));
-      setState(() {
-        _enabled = result;
-        if (_enabled == false) {
-          _lights2 = false;
-        }
-      });
-    } on PlatformException catch (err) {
-      setState(() {
-        _error = err.code;
-      });
-    }
-  }
+  // Future<void> _toggleBackgroundMode() async {
+  //   setState(() {
+  //     _error = null;
+  //   });
+  //   try {
+  //     final bool result =
+  //         await location.enableBackgroundMode(enable: !(_enabled ?? false));
+  //     setState(() {
+  //       _enabled = result;
+  //       if (_enabled == false) {
+  //         _lights2 = false;
+  //       }
+  //     });
+  //   } on PlatformException catch (err) {
+  //     setState(() {
+  //       _error = err.code;
+  //     });
+  //   }
+  // }
 
-  Future<void> _checkBackgroundMode() async {
-    setState(() {
-      _error = null;
-    });
-    final bool result = await location.isBackgroundModeEnabled();
-    setState(() {
-      _enabled = result;
-      if (_enabled == true) {
-        _lights2 = true;
-      }
-    });
-  }
+  // Future<void> _checkBackgroundMode() async {
+  //   setState(() {
+  //     _error = null;
+  //   });
+  //   final bool result = await location.isBackgroundModeEnabled();
+  //   setState(() {
+  //     _enabled = result;
+  //     if (_enabled == true) {
+  //       _lights2 = true;
+  //     }
+  //   });
+  // }
 
   Future<void> _checkPermissions() async {
     final PermissionStatus permissionGrantedResult =
@@ -223,36 +222,40 @@ class _MyHomePageState extends State<MyHomePage> {
                   secondary: const Icon(Icons.my_location),
                 ),
               ),
-              const Divider(height: 30),
-              Container(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Color.fromRGBO(244, 242, 250, 1),
-                        spreadRadius: 2,
-                        blurRadius: 2)
-                  ],
-                ),
-                height: 80,
-                width: MediaQuery.of(context).size.width * 0.85,
-                child: SwitchListTile(
-                  title: const Text('Ubicación en segundo plano'),
-                  value: _lights2,
-                  onChanged: (bool value) {
-                    if (_enabled == true) {
-                      value = true;
-                    } else {
-                      setState(() {
-                        _toggleBackgroundMode();
-                        _lights2 = value;
-                      });
-                    }
-                  },
-                  secondary: const Icon(Icons.location_on_outlined),
-                ),
+              // const Divider(height: 30),
+              // Container(
+              //   decoration: const BoxDecoration(
+              //     borderRadius: BorderRadius.all(Radius.circular(8)),
+              //     boxShadow: [
+              //       BoxShadow(
+              //           color: Color.fromRGBO(244, 242, 250, 1),
+              //           spreadRadius: 2,
+              //           blurRadius: 2)
+              //     ],
+              //   ),
+              //   height: 80,
+              //   width: MediaQuery.of(context).size.width * 0.85,
+              //   child: SwitchListTile(
+              //     title: const Text('Ubicación en segundo plano'),
+              //     value: _lights2,
+              //     onChanged: (bool value) {
+              //       if (_enabled == true) {
+              //         value = true;
+              //       } else {
+              //         setState(() {
+              //           _toggleBackgroundMode();
+              //           _lights2 = value;
+              //         });
+              //
+              //       }
+              //     },
+              //     secondary: const Icon(Icons.location_on_outlined),
+              //   ),
+              // ),
+              // const Divider(height: 30),
+              const SizedBox(
+                height: 100,
               ),
-              const Divider(height: 30),
               const ListenLocationWidget(),
             ],
           ),
