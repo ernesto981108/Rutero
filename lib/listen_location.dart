@@ -34,12 +34,14 @@ class _ListenLocationState extends State<ListenLocationWidget> {
         _error = null;
 
         _location = currentLocation;
-        latitud = _location!.latitude.toString();
-        longitud = _location!.longitude.toString();
-        accuracy = _location!.accuracy.toString();
-
-        sendInfo();
-        print('$_location');
+        if (_location!.accuracy! < 5) {
+          latitud = _location!.latitude.toString();
+          longitud = _location!.longitude.toString();
+          accuracy = _location!.accuracy.toString();
+          sendInfo();
+          print('$_location');
+          print('$_location.accuracy');
+        }
       });
     });
   }
